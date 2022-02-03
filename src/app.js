@@ -1,12 +1,14 @@
 const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
-const request = require('postman-request')
+const request = require("postman-request");
 
 const app = express();
 
-const geocode = require('./utils/geocode.js')
-const forecast = require('./utils/forecast')
+const geocode = require("./utils/geocode.js");
+const forecast = require("./utils/forecast");
+
+const port = process.env.PORT || 3000;
 
 // Define paths
 const publicDirectoryPath = path.join(__dirname, "../public");
@@ -45,30 +47,33 @@ app.get("/help", (req, res) => {
 app.get("/weather", (req, res) => {
   if (!req.query.address) {
     return res.send({
-      error: 'Please provide address to know about weather.',
+      error: "Please provide address to know about weather.",
     });
   }
 
-  geocode(req.query.address,(error,{lattitude, longitude, location}={})=>{
-    if(error){
-       return res.send({
-         error: error
-       })
-    }
-    forecast(lattitude,longitude, (error,forecastData)=>{
-        if(error){
-            return res.send({
-              error:error
-            })
+  geocode(
+    req.query.address,
+    (error, { lattitude, longitude, location } = {}) => {
+      if (error) {
+        return res.send({
+          error: error,
+        });
+      }
+      forecast(lattitude, longitude, (error, forecastData) => {
+        if (error) {
+          return res.send({
+            error: error,
+          });
         }
 
         res.send({
           forecastData: forecastData,
           location,
-          address:req.query.address,          
-        })
-    })
-  });
+          address: req.query.address,
+        });
+      });
+    }
+  );
 });
 
 app.get("/products", (req, res) => {
@@ -100,6 +105,6 @@ app.get("*", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server is up with port 3000.");
+app.listen(port, () => {
+  console.log("Server is up with port " + port);
 });
