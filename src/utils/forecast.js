@@ -11,7 +11,7 @@ request({url, json: true}, (error,{body})=>{
     }else{
         callback(undefined,
         'It is currenty '+ body.current.temperature +' degrees out, but it feels like '+body.current.feelslike+' degrees out. The humidity is '
-         + body.current.humidity + '%, and the current weather shows  ' + body.current.weather_descriptions
+         + body.current.humidity + '%, and the current weather shows  ' + body.current.weather_descriptions +"."
          )
     }
 })
