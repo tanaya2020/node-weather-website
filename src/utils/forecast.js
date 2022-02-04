@@ -9,7 +9,10 @@ request({url, json: true}, (error,{body})=>{
     }else if(body.error){
         callback('Unable to find location', undefined)
     }else{
-        callback(undefined,'It is currenty '+ body.current.temperature +' degree out. But it feels like '+body.current.feelslike+' degree out and the weather is ' + body.current.weather_descriptions)
+        callback(undefined,
+        'It is currenty '+ body.current.temperature +' degrees out, but it feels like '+body.current.feelslike+' degrees out. The humidity is '
+         + body.current.humidity + '%, and the current weather shows  ' + body.current.weather_descriptions
+         )
     }
 })
 
